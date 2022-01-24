@@ -1,14 +1,14 @@
 {
     "compilerOptions": {
+        "baseUrl": ".",
+        "rootDir": ".",
         "incremental": true,
         "noImplicitAny": false,
         "target": "es2021",
         "module": "commonjs",
         "declaration": true,
-        "outDir": "./dist",
         "removeComments": true,
         "strict": true,
-        "baseUrl": "./",
         "esModuleInterop": true,
         "skipLibCheck": true,
         "forceConsistentCasingInFileNames": true,
