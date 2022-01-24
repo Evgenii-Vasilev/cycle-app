@@ -1,7 +1,7 @@
 import { Request, Response } from 'express'
-import { generateFirstCycleRequestDto } from 'interfaces/cycles'
+import { GenerateFirstCycleRequestDto } from 'interfaces/cycles'
 import { CycleModel } from '../models/CycleModel'
-import { cycleService } from '../services/cycleService'
+import { cycleService } from '../services/cycle/cycleService'
 
 class Cycle {
     generateFirstCycle(req: Request, res: Response) {
