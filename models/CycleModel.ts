@@ -4,7 +4,6 @@ import knex from '../db/knex'
 Model.knex(knex)
 
 export class CycleModel extends Model {
-    cycleId!: number
     userId!: number
     cycleDuration!: number
     menstruationStarts!: Date
@@ -12,6 +11,10 @@ export class CycleModel extends Model {
     fertileStarts!: Date
     ovulationDay!: Date
     infertileStarts!: Date
+
+    static get idColumn() {
+        return 'cycleId'
+    }
 
     static get tableName() {
         return 'cycles'

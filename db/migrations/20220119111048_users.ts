@@ -6,8 +6,8 @@ export async function up(knex: Knex): Promise<void> {
         table.string('login').notNullable()
         table.string('password').notNullable()
         table.boolean('isFollower')
-        table.integer('subscriberId').references('id')
-        table.enu('lastAdvices', [1, 2, 3]).defaultTo([0, 0, 0])
+        table.integer('subscriberId').references('userId')
+        // table.enu('lastAdvices', ['number'])
     })
 }
 

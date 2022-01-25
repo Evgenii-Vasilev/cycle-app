@@ -7,9 +7,3 @@ export interface Cycle {
     ovulationDay?: Date
     infertileStarts?: Date
 }
-
-export interface GenerateFirstCycleRequestDto {
-    userId: number
-    menstruationStarts: Date
-    cycleDuration: number
-}

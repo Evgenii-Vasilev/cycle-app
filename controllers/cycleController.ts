@@ -1,18 +1,30 @@
 import { Request, Response } from 'express'
-import { GenerateFirstCycleRequestDto } from 'interfaces/cycles'
 import { CycleModel } from '../models/CycleModel'
 import { cycleService } from '../services/cycle/cycleService'
 
 class Cycle {
-    generateFirstCycle(req: Request, res: Response) {
-        req.body.menstruationStarts = new Date(req.body.menstruationStarts)
-        const firstCycle = cycleService.generateFirstCycle(req.body)
-        // CycleModel.query().insert(firstCycle)
-        res.json(firstCycle)
+    async generateFirstCycle(req: Request, res: Response) {
+        try {
+            const firstCycle = cycleService.generateFirstCycle(req.body)
+            await CycleModel.query().insert(firstCycle)
+            res.json(firstCycle)
+        } catch (e) {
+            res.json(false)
+            console.log('† e', e)
+        }
     }
 
-    async createFirstCycle(req: Request, res: Response) {
-        // await CycleModel.query().insert()
+    async generateNextCycle(req: Request, res: Response) {
+        try {
+            const userId = req.body.userId
+            const lastCycle = await CycleModel.query().whereColumn('userId', '=', userId).orderBy('infertileStarts')
+            const nextCycle = cycleService.generateNextCycle(lastCycle[0])
+            // await CycleModel.query().insert(nextCycle)
+            res.json(nextCycle)
+        } catch (e) {
+            res.json(false)
+            console.log('† e', e)
+        }
     }
 }
 

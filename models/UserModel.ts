@@ -4,13 +4,15 @@ import knex from '../db/knex'
 Model.knex(knex)
 
 export class UserModel extends Model {
-    id!: number
     login!: string
     password!: string
     isFollower!: boolean
     subscriberId!: number
-    lastAdvices!: number[]
+    lastAdvices!: string[]
 
+    static get idColumn() {
+        return 'userId'
+    }
     static get tableName() {
         return 'users'
     }

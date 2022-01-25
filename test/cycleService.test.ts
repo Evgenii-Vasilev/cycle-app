@@ -1,6 +1,6 @@
 import test from 'ava'
 import { cycleService } from '../services/cycle/cycleService'
-import { Cycle } from '../interfaces/cycles'
+import { Cycle } from '../interfaces/cycle'
 
 const mockFirstCycle: Cycle = {
     userId: 1,
@@ -18,6 +18,19 @@ const mockArguments: Cycle = {
     menstruationStarts: mockFirstCycle.menstruationStarts,
 }
 
-test('Generate first cycle', (t) => {
+test('Generate first cycle', t => {
     t.deepEqual(cycleService.generateFirstCycle(mockArguments), mockFirstCycle)
+})
+
+test('Generate next cycle', t => {
+    const nextCycle: Cycle = {
+        userId: 1,
+        cycleDuration: 30,
+        menstruationStarts: new Date('2022-01-22'),
+        bloodEnds: new Date('2022-01-27'),
+        fertileStarts: new Date('2022-02-01'),
+        ovulationDay: new Date('2022-02-06'),
+        infertileStarts: new Date('2022-02-17'),
+    }
+    t.deepEqual(cycleService.generateNextCycle(mockFirstCycle), nextCycle)
 })

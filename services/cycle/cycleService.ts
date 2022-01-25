@@ -1,9 +1,10 @@
 import { cloneDeep } from 'lodash'
-import { Cycle, GenerateFirstCycleRequestDto } from '../../interfaces/cycles'
+import { Cycle } from '../../interfaces/cycle'
 
 class CycleService {
-    generateFirstCycle({ userId, menstruationStarts, cycleDuration }: GenerateFirstCycleRequestDto): Cycle {
-        const bloodEnds = this.getDayAfter(cycleDuration / 5 - 1, menstruationStarts)
+    generateFirstCycle(data: Cycle): Cycle {
+        const { userId, cycleDuration, menstruationStarts } = data
+        const bloodEnds = this.getDayAfter(cycleDuration / 6, menstruationStarts)
         const fertileStarts = this.getDayAfter(cycleDuration / 3, menstruationStarts)
         const ovulationDay = this.getDayAfter(cycleDuration / 2, menstruationStarts)
 
@@ -20,7 +21,28 @@ class CycleService {
         }
     }
 
-    private getDayAfter(skipDays: number, date?: Date) {
+    generateNextCycle(cycle: Cycle): Cycle {
+        const { userId, cycleDuration, menstruationStarts, bloodEnds, fertileStarts, ovulationDay, infertileStarts } =
+            cycle
+
+        const nextMenstruationStarts = this.getDayAfter(cycleDuration, menstruationStarts)
+        const nextBloodEnds = this.getDayAfter(cycleDuration, bloodEnds)
+        const nextFertileStarts = this.getDayAfter(cycleDuration, fertileStarts)
+        const nextOvulationDay = this.getDayAfter(cycleDuration, ovulationDay)
+        const nextInfertileStarts = this.getDayAfter(cycleDuration, infertileStarts)
+
+        return {
+            userId,
+            cycleDuration,
+            menstruationStarts: nextMenstruationStarts,
+            bloodEnds: nextBloodEnds,
+            fertileStarts: nextFertileStarts,
+            ovulationDay: nextOvulationDay,
+            infertileStarts: nextInfertileStarts,
+        }
+    }
+
+    private getDayAfter(skipDays: number, date?: Date): Date {
         if (date) {
             const newDate = cloneDeep(date)
             const days = date.getDate() + skipDays
