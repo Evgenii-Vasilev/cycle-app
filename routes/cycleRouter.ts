@@ -5,3 +5,4 @@ export const cycleRouter = Router()
 
 cycleRouter.post('/cycle/generate-first', cycleController.generateFirstCycle)
 cycleRouter.post('/cycle/generate-next', cycleController.generateNextCycle)
+cycleRouter.post('/cycle/edit-cycle-duration', cycleController.editCycleDuration)

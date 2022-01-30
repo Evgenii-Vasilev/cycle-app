@@ -9,7 +9,7 @@ class Cycle {
             await CycleModel.query().insert(firstCycle)
             res.json(firstCycle)
         } catch (e) {
-            res.json(false)
+            res.json()
             console.log('† e', e)
         }
     }
@@ -17,12 +17,27 @@ class Cycle {
     async generateNextCycle(req: Request, res: Response) {
         try {
             const userId = req.body.userId
-            const lastCycle = await CycleModel.query().whereColumn('userId', '=', userId).orderBy('infertileStarts')
-            const nextCycle = cycleService.generateNextCycle(lastCycle[0])
-            // await CycleModel.query().insert(nextCycle)
-            res.json(nextCycle)
+            const lastCycle = await CycleModel.query().where({ userId }).orderBy('infertileStarts', 'DESC').first()
+            if (lastCycle) {
+                const nextCycle = cycleService.generateNextCycle(lastCycle)
+                await CycleModel.query().insertAndFetch(nextCycle)
+                return res.json(nextCycle)
+            } else {
+                throw new Error('There are no cycles')
+            }
         } catch (e) {
-            res.json(false)
+            res.json()
+            console.log('† e', e)
+        }
+    }
+
+    async editCycleDuration(req: Request, res: Response) {
+        try {
+            const { cycleId, cycleDuration } = req.body
+            await CycleModel.query().findById(cycleId).patch({ cycleDuration })
+            res.json(true)
+        } catch (e) {
+            res.json()
             console.log('† e', e)
         }
     }

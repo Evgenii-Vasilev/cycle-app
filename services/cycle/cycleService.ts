@@ -22,8 +22,16 @@ class CycleService {
     }
 
     generateNextCycle(cycle: Cycle): Cycle {
-        const { userId, cycleDuration, menstruationStarts, bloodEnds, fertileStarts, ovulationDay, infertileStarts } =
-            cycle
+        const {
+            cycleId,
+            userId,
+            cycleDuration,
+            menstruationStarts,
+            bloodEnds,
+            fertileStarts,
+            ovulationDay,
+            infertileStarts,
+        } = cycle
 
         const nextMenstruationStarts = this.getDayAfter(cycleDuration, menstruationStarts)
         const nextBloodEnds = this.getDayAfter(cycleDuration, bloodEnds)

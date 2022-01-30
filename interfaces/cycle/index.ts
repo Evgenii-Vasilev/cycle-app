@@ -1,7 +1,8 @@
 export interface Cycle {
-    userId: number
+    cycleId?: number
+    userId?: number
     cycleDuration: number
-    menstruationStarts: Date
+    menstruationStarts?: Date
     bloodEnds?: Date
     fertileStarts?: Date
     ovulationDay?: Date
